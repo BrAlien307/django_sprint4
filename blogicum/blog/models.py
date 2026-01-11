@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 
 User = get_user_model()
 TEXT_LENGTH = 256
@@ -55,8 +56,12 @@ class Post(BaseModel):
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
         verbose_name='Дата и время публикации',
-        help_text='Если установить дату и время - '
-                  'можно делать отложенные публикации.'
+        help_text=(
+            'Если установить дату и время - '
+            'можно делать отложенные публикации.'
+        ),
+        default=timezone.now,
+        blank=True,
     )
     image = models.ImageField('Фото', upload_to='posts_images', blank=True)
     author = models.ForeignKey(
